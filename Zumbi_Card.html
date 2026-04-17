@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zumbi — Card D&D 5e</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #f5f4f0;
+      display: flex;
+      justify-content: center;
+      padding: 44px 20px 64px;
+      font-family: 'Crimson Pro', serif;
+      color: #1a1a18;
+    }
+
+    /* ─── CARD ─── */
+    .card {
+      background: #ffffff;
+      border: 0.5px solid #c8c6be;
+      width: 100%;
+      max-width: 580px;
+    }
+
+    /* ─── HEADER ─── */
+    .header {
+      padding: 22px 24px 18px;
+      border-bottom: 0.5px solid #c8c6be;
+    }
+
+    .monster-name {
+      font-size: 28px;
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: 3px;
+    }
+
+    .monster-sub {
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #6b6a64;
+      margin-bottom: 14px;
+    }
+
+    .monster-desc {
+      font-style: italic;
+      font-size: 14px;
+      color: #4a4a44;
+      line-height: 1.55;
+      margin-bottom: 18px;
+    }
+
+    .badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .badge {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 5px 11px;
+      border: 0.5px solid #c8c6be;
+      background: #f8f7f3;
+      min-width: 54px;
+    }
+
+    .badge-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 7.5px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #6b6a64;
+      margin-bottom: 2px;
+    }
+
+    .badge-value {
+      font-family: 'DM Mono', monospace;
+      font-size: 13px;
+      font-weight: 500;
+      color: #1a1a18;
+    }
+
+    .immunity-note {
+      font-family: 'DM Mono', monospace;
+      font-size: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: #6b6a64;
+      margin-top: 10px;
+    }
+
+    /* ─── RESET BAR ─── */
+    .reset-bar {
+      width: 100%;
+      padding: 6px 24px;
+      background: #f2f1ec;
+      border: none;
+      border-bottom: 0.5px solid #c8c6be;
+      font-family: 'DM Mono', monospace;
+      font-size: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: #6b6a64;
+      cursor: pointer;
+      text-align: right;
+      transition: background 0.12s, color 0.12s;
+    }
+
+    .reset-bar:hover { background: #e6e4de; color: #1a1a18; }
+
+    /* ─── ATTRIBUTES ─── */
+    .attrs {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      border-bottom: 0.5px solid #c8c6be;
+    }
+
+    .attr {
+      padding: 13px 4px;
+      text-align: center;
+      border-right: 1px solid #c8c6be;
+    }
+
+    .attr:last-child { border-right: none; }
+
+    .attr-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #6b6a64;
+      margin-bottom: 5px;
+    }
+
+    .attr-mod {
+      font-size: 21px;
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    /* ─── GENERIC SECTION ─── */
+    .section {
+      padding: 13px 24px;
+      border-bottom: 0.5px solid #c8c6be;
+    }
+
+    .section-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 8.5px;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: #6b6a64;
+      margin-bottom: 11px;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 11px;
+    }
+
+    /* ─── META ─── */
+    .meta-row {
+      font-size: 13.5px;
+      line-height: 1.7;
+    }
+
+    .meta-key { font-weight: 700; }
+
+    /* ─── SECTION TINTS ─── */
+    .sec-traits    { background: #fdfcf7; }
+    .sec-actions   { background: #f5fbf0; }
+    .sec-bonus     { background: #fdf8ee; }
+    .sec-reactions { background: #f2f7fd; }
+
+    /* ─── TRAITS ─── */
+    .trait {
+      font-size: 13.5px;
+      line-height: 1.55;
+      padding-bottom: 9px;
+      margin-bottom: 9px;
+      border-bottom: 0.5px solid #e4e3da;
+    }
+
+    .trait:last-child { margin-bottom: 0; border-bottom: none; padding-bottom: 0; }
+    .trait-name { font-weight: 700; }
+
+    .trait-head {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      margin-bottom: 4px;
+      flex-wrap: wrap;
+    }
+
+    /* ─── ACTION ITEMS ─── */
+    .action { margin-bottom: 12px; }
+    .action:last-child { margin-bottom: 0; }
+
+    .action-head {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      flex-wrap: wrap;
+      margin-bottom: 3px;
+    }
+
+    .action-name {
+      font-size: 14.5px;
+      font-weight: 700;
+    }
+
+    .tag {
+      font-family: 'DM Mono', monospace;
+      font-size: 7.5px;
+      font-weight: 500;
+      padding: 2px 7px;
+      border: 0.5px solid;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      white-space: nowrap;
+      line-height: 1.5;
+    }
+
+    .tag-a  { background: #EAF3DE; border-color: #C0DD97; color: #3B6D11; }
+    .tag-ab { background: #FAEEDA; border-color: #FAC775; color: #854F0B; }
+    .tag-r  { background: #E6F1FB; border-color: #B5D4F4; color: #185FA5; }
+    .tag-limit { background: #E6F1FB; border-color: #B5D4F4; color: #185FA5; }
+
+    .action-text {
+      font-size: 13.5px;
+      line-height: 1.55;
+    }
+
+    /* ─── CD CHIP ─── */
+    .cd {
+      display: inline-block;
+      font-family: 'DM Mono', monospace;
+      font-size: 8px;
+      font-weight: 500;
+      padding: 1px 6px;
+      border: 0.5px solid #d4c8a0;
+      background: #faf6ea;
+      color: #6b5420;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      vertical-align: middle;
+      margin-left: 3px;
+    }
+
+    /* ─── INSTINCT / FORM ALERT ─── */
+    .form-alert {
+      margin-top: 7px;
+      padding: 8px 11px;
+      background: #fef0f0;
+      border: 0.5px solid #f0c0c0;
+      color: #a02020;
+      font-size: 13px;
+      font-style: italic;
+      line-height: 1.45;
+    }
+
+    /* ─── DICE BUTTONS ─── */
+    .dice-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 6px;
+    }
+
+    .btn {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      padding: 3px 11px;
+      border: 0.5px solid #c8c6be;
+      background: #f8f7f3;
+      color: #1a1a18;
+      cursor: pointer;
+      transition: background 0.1s;
+      line-height: 1.5;
+    }
+
+    .btn:hover { background: #eeede8; }
+
+    .btn-dmg {
+      border-color: #e8b8b8;
+      background: #fdf5f5;
+      color: #a02020;
+    }
+
+    .btn-dmg:hover { background: #faeaea; }
+
+    /* ─── CHECKBOXES ─── */
+    .cb-group {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .cb-note {
+      font-family: 'DM Mono', monospace;
+      font-size: 7.5px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #6b6a64;
+      margin-right: 2px;
+    }
+
+    .cb, .cb-sm {
+      border: 1px solid #c8c6be;
+      background: #f8f7f3;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'DM Mono', monospace;
+      transition: background 0.12s, border-color 0.12s;
+      flex-shrink: 0;
+      user-select: none;
+    }
+
+    .cb { width: 16px; height: 16px; font-size: 10px; }
+    .cb-sm { width: 13px; height: 13px; font-size: 8px; margin-left: auto; }
+
+    .cb:hover, .cb-sm:hover { background: #eeede8; }
+
+    .cb.checked, .cb-sm.checked {
+      background: #1a1a18;
+      border-color: #1a1a18;
+      color: #ffffff;
+    }
+
+    .cb.checked::after, .cb-sm.checked::after { content: '✓'; }
+
+    /* ─── LOOT ─── */
+    .loot {
+      background: #f6f5f0;
+      padding: 13px 24px;
+    }
+
+    .loot-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 6px;
+    }
+
+    .loot-row:last-child { margin-bottom: 0; }
+
+    .loot-text {
+      font-size: 13.5px;
+      flex: 1;
+    }
+
+    /* ─── TOAST ─── */
+    #toast {
+      position: fixed;
+      bottom: 28px;
+      left: 50%;
+      transform: translateX(-50%) translateY(8px);
+      background: #1a1a18;
+      padding: 9px 18px;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 999;
+      font-family: 'DM Mono', monospace;
+      font-size: 11.5px;
+      transition: opacity 0.18s, transform 0.18s;
+      white-space: normal;
+      max-width: min(520px, 90vw);
+      text-align: center;
+      line-height: 1.5;
+    }
+
+    #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    .t-hit  { color: #ffffff; }
+    .t-dmg  { color: #e07070; }
+    .t-loot { color: #b0c890; }
+  </style>
+</head>
+<body>
+<div class="card">
+
+  <!-- ══ HEADER ══ -->
+  <div class="header">
+    <div class="monster-name">Zumbi</div>
+    <div class="monster-sub">Morto-Vivo Médio · Sem Alinhamento</div>
+    <div class="monster-desc">
+      Impulsionado por uma vontade sombria que supera qualquer razão, o zumbi avança implacável entre os vivos.
+      Carne em decomposição, olhos opacos — o que resta deste morto-vivo não conhece dor, cansaço nem piedade.
+    </div>
+    <div class="badges">
+      <div class="badge">
+        <span class="badge-label">CA</span>
+        <span class="badge-value">8</span>
+      </div>
+      <div class="badge">
+        <span class="badge-label">PV</span>
+        <span class="badge-value">15</span>
+      </div>
+      <div class="badge">
+        <span class="badge-label">Velocidade</span>
+        <span class="badge-value">6 m</span>
+      </div>
+      <div class="badge">
+        <span class="badge-label">Bôn. Prof.</span>
+        <span class="badge-value">+2</span>
+      </div>
+    </div>
+    <div class="immunity-note">Imune a: Veneno · Condição Envenenado · Exaustão</div>
+  </div>
+
+  <button class="reset-bar" onclick="resetAll()">↺ Nova Rodada</button>
+
+  <!-- ══ ATRIBUTOS ══ -->
+  <div class="attrs">
+    <div class="attr"><div class="attr-label">FOR</div><div class="attr-mod">+1</div></div>
+    <div class="attr"><div class="attr-label">DES</div><div class="attr-mod">−2</div></div>
+    <div class="attr"><div class="attr-label">CON</div><div class="attr-mod">+3</div></div>
+    <div class="attr"><div class="attr-label">INT</div><div class="attr-mod">−4</div></div>
+    <div class="attr"><div class="attr-label">SAB</div><div class="attr-mod">−2</div></div>
+    <div class="attr"><div class="attr-label">CAR</div><div class="attr-mod">−3</div></div>
+  </div>
+
+  <!-- ══ META ══ -->
+  <div class="section">
+    <div class="meta-row"><span class="meta-key">Resistências</span> &nbsp;SAB +0</div>
+    <div class="meta-row"><span class="meta-key">Sentidos</span> &nbsp;Visão no Escuro</div>
+  </div>
+
+  <!-- ══ TRAÇOS PASSIVOS ══ -->
+  <div class="section sec-traits">
+    <div class="section-label">Traços Passivos</div>
+
+    <div class="trait">
+      <div class="trait-head">
+        <span class="trait-name">Fortitude dos Mortos-Vivos.</span>
+        <span class="tag tag-limit">1/dia</span>
+        <div class="cb-sm" onclick="this.classList.toggle('checked')" title="Usada hoje"></div>
+      </div>
+      Se o dano reduzir o zumbi a 0 PV, ele fica com 1 PV em vez disso.
+      Não funciona contra dano radiante, acerto crítico, dano ≥ 15, ou se o zumbi estava com apenas 1 PV.
+    </div>
+  </div>
+
+  <!-- ══ AÇÕES ══ -->
+  <div class="section sec-actions">
+    <div class="section-label">Ações</div>
+
+    <div class="action">
+      <div class="action-head">
+        <span class="action-name">Golpear</span>
+        <span class="tag tag-a">A</span>
+      </div>
+      <div class="action-text">Corpo a corpo · alcance 1,5 m · um alvo.</div>
+      <div class="dice-row">
+        <button class="btn"     onclick="hit(3, 'Golpear — Acerto')">⚔ Acerto +3</button>
+        <button class="btn btn-dmg" onclick="dmg([[1,8,1]], 'Golpear — Dano')">👊 1d8+1 concussão</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ LOOT ══ -->
+  <div class="loot">
+    <div class="section-label">Saque</div>
+
+    <div class="loot-row">
+      <span class="loot-text">Moedas de cobre</span>
+      <div class="dice-row">
+        <button class="btn" onclick="loot([[1,4,0]], 'Moedas de cobre')">🎲 1d4 pc</button>
+      </div>
+    </div>
+    <div class="loot-row">
+      <span class="loot-text">Bugiganga aleatória</span>
+      <div class="dice-row">
+        <button class="btn" onclick="bugiganga()">🎲 Bugiganga (1d100)</button>
+      </div>
+    </div>
+    <div class="loot-row">
+      <span class="loot-text">Sucata aleatória</span>
+      <div class="dice-row">
+        <button class="btn" onclick="sucata()">🎲 Sucata (1d100)</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══ TOAST ══ -->
+<div id="toast"><span id="toast-msg" class="t-hit"></span></div>
+
+<script>
+  function d(s) { return Math.floor(Math.random() * s) + 1; }
+
+  function hit(bonus, name) {
+    const r = d(20);
+    const t = r + bonus;
+    const s = r === 20 ? ' ✦ CRÍTICO!' : r === 1 ? ' ✕ Erro Crítico' : '';
+    toast(`${name}: d20(${r})+${bonus} = ${t}${s}`, 't-hit');
+  }
+
+  function dmg(dice, name) {
+    let total = 0, parts = [];
+    for (const [n, s, b] of dice) {
+      let sub = 0;
+      for (let i = 0; i < n; i++) sub += d(s);
+      total += sub + b;
+      parts.push(b ? `${n}d${s}(${sub})+${b}` : `${n}d${s}(${sub})`);
+    }
+    toast(`${name}: ${parts.join(' ')} = ${total}`, 't-dmg');
+  }
+
+  function loot(dice, name) {
+    let total = 0;
+    for (const [n, s, b] of dice) {
+      for (let i = 0; i < n; i++) total += d(s);
+      total += b;
+    }
+    toast(`${name}: ${total}`, 't-loot');
+  }
+
+  const SUCATA = [
+    "Punhado de velas quebradas","Panela de metal enferrujada","Cacos de um jarro quebrado",
+    "Balde de madeira mofado","Pedaço de corda de 15 cm","Um saco de pregos enferrujados e tortos",
+    "Bolinhas de gude de vidro","Meias manchadas de sangue","Livro encharcado","Um crânio humano",
+    "Anel de cobre barato","Pedaços de giz quebrado","Colher enferrujada","Uma única luva infantil",
+    "Contas de vidro","Calças comidas por traças","Cacos de um prato quebrado","Tinteiro seco",
+    "Chave quebrada","Cadeira de madeira destruída","Agulha de costura torta","Garrafas quebradas",
+    "Pele de animal arruinada","Pedaços de carvão","Espelho de mão quebrado","Saco de estopa mofado",
+    "Avental de couro manchado","Garrafa de vinho estragado","Ferraduras","Espada curta quebrada",
+    "Pilha de fragmentos de ossos","Diário muito queimado","Pedaço de pergaminho em branco",
+    "Chapéu cheio de buracos","Bolsa com tabaco velho","Flechas quebradas",
+    "Boneca de palha com penas pintadas","Varinha quebrada em duas partes",
+    "Concha torta (tipo colher grande)","Cascas de besouro mortas","Caldeirão de ferro rachado",
+    "Armadura acolchoada rasgada em pedaços","Frasco de vidro vazio","Barra de sabão",
+    "Flores secas e esfarelando","Restos de velas usadas","Aljava esmagada",
+    "Chaleira de cobre amassada","Bola de cera ressecada","Raios de roda de carroça",
+    "Cabo de um machado","Camisa de tecido áspero","Osso de animal roído",
+    "Cadeado enferrujado e travado","Vários dentes humanos","Pergaminho com tinta derramada",
+    "Penas mofadas","Estatueta de pedra quebrada","Dedal manchado","Feixe de gravetos",
+    "Uma única moeda de cobre","Ponta de uma lâmina de faca","Pedaços variados de corda",
+    "Cantil com um grande furo","Cajado quebrado","Pedaços de papel queimados",
+    "Retalhos de tecido manchados","Bandagens ensanguentadas","Dentes de animal","Saco furado",
+    "Queijo estragado","Boneca queimada","Caneca de estanho lascada","Corrente de cobre quebrada",
+    "Dobradiça de porta enferrujada","Flauta de madeira rachada","Esqueletos de ratos mortos",
+    "Barra de metal torta","Cachecol de lã mofado","Trapos encharcados de óleo",
+    "Cachimbo de pedra rachado","Maçaneta de porta amassada","Rolha de garrafa",
+    "Cálice de madeira rachado","Fivelas de latão manchadas","Carne infestada de larvas",
+    "Arco curto estilhaçado","Máscara de madeira antiga","Ampulheta quebrada",
+    "Bolsa com pedras de rio","Tochas usadas","Orbe de vidro estilhaçado","Lata de tinta seca",
+    "Cinzel de metal sem fio","Espada de madeira de brinquedo","Lamparina vazando óleo",
+    "Bota de couro gasta","Pequeno pote de barro sem tampa","Esteira de dormir úmida e mofada",
+    "Pergaminho mágico de Golpe Verdadeiro"
+  ];
+
+  const BUGIGANGA = [
+    "Uma mão mumificada de goblin",
+    "Um pedaço de cristal que brilha levemente à luz da lua",
+    "Uma moeda de ouro cunhada em uma terra desconhecida",
+    "Um diário escrito em uma língua que você não conhece",
+    "Um anel de latão que nunca enferruja",
+    "Uma peça de xadrez antiga feita de vidro",
+    "Um par de dados de ossos dos dedos, cada um com caveira no lugar do seis",
+    "Um pequeno ídolo de criatura pesadelesca que causa sonhos perturbadores quando próximo",
+    "Um colar de corda com quatro dedos de elfo mumificados pendurados",
+    "A escritura de um terreno em um reino desconhecido para você",
+    "Um bloco de 1 onça feito de um material desconhecido",
+    "Uma pequena boneca de pano perfurada com agulhas",
+    "Um dente de uma besta desconhecida",
+    "Uma escama enorme, talvez de um dragão",
+    "Uma pena verde brilhante",
+    "Uma antiga carta de adivinhação com sua própria imagem",
+    "Uma esfera de vidro cheia de fumaça em movimento",
+    "Um ovo de 1 libra com casca vermelha brilhante",
+    "Um cachimbo que solta bolhas",
+    "Um frasco de vidro com um pedaço estranho de carne em conserva",
+    "Uma caixinha de música gnômica que toca uma canção vagamente familiar da sua infância",
+    "Uma pequena estatueta de madeira de um halfling presunçoso",
+    "Uma esfera de latão gravada com runas estranhas",
+    "Um disco de pedra multicolorido",
+    "Um pequeno ícone de prata de um corvo",
+    "Uma bolsa com quarenta e sete dentes humanoides, um deles podre",
+    "Um fragmento de obsidiana que está sempre quente ao toque",
+    "Uma garra óssea de dragão presa a um colar simples de couro",
+    "Um par de meias velhas",
+    "Um livro em branco cujas páginas não retêm tinta, giz, grafite ou qualquer substância",
+    "Um distintivo de prata em forma de estrela de cinco pontas",
+    "Uma faca que pertenceu a um parente",
+    "Um frasco de vidro cheio de unhas cortadas",
+    "Um dispositivo metálico com duas taças que solta faíscas quando molhado",
+    "Uma luva branca com lantejoulas, do tamanho de um humano",
+    "Um colete com cem pequenos bolsos",
+    "Um pequeno bloco de pedra sem peso",
+    "Um pequeno retrato desenhado de um goblin",
+    "Um frasco de vidro vazio que cheira a perfume ao ser aberto",
+    "Uma gema que parece carvão para qualquer pessoa, exceto você",
+    "Um pedaço de tecido de um antigo estandarte",
+    "Uma insígnia de patente de um legionário perdido",
+    "Um pequeno sino de prata sem badalo",
+    "Um canário mecânico dentro de uma lâmpada feita por gnomos",
+    "Um pequeno baú esculpido para parecer ter muitos pés",
+    "Uma fada morta dentro de uma garrafa de vidro transparente",
+    "Uma lata de metal sem abertura que parece conter líquido, areia, aranhas ou vidro quebrado",
+    "Uma esfera de vidro com água contendo um peixe dourado mecânico",
+    "Uma colher de prata com um 'M' gravado no cabo",
+    "Um apito feito de madeira dourada",
+    "Um escaravelho morto do tamanho da sua mão",
+    "Dois soldados de brinquedo, um sem cabeça",
+    "Uma pequena caixa cheia de botões de vários tamanhos",
+    "Uma vela que não pode ser acesa",
+    "Uma pequena gaiola sem porta",
+    "Uma chave antiga",
+    "Um mapa do tesouro indecifrável",
+    "O cabo de uma espada quebrada",
+    "Um pé de coelho",
+    "Um olho de vidro",
+    "Um camafeu com a imagem de uma pessoa horrível",
+    "Um crânio de prata do tamanho de uma moeda",
+    "Uma máscara de alabastro",
+    "Um incenso preto pegajoso em forma de pirâmide com cheiro muito ruim",
+    "Um gorro de dormir que proporciona sonhos agradáveis",
+    "Um único estrepete feito de osso",
+    "Uma armação de monóculo de ouro sem lente",
+    "Um cubo de 1 polegada, cada lado de uma cor diferente",
+    "Um puxador de porta feito de cristal",
+    "Um pequeno pacote cheio de pó rosa",
+    "Um fragmento de uma bela canção escrito em notas musicais em dois pedaços de pergaminho",
+    "Um brinco de prata em forma de lágrima feito de uma lágrima real",
+    "A casca de um ovo pintada com cenas perturbadoras de sofrimento humano",
+    "Um leque que, ao ser aberto, mostra um gato dormindo",
+    "Um conjunto de flautas de osso",
+    "Um trevo de quatro folhas prensado dentro de um livro sobre etiqueta",
+    "Um pergaminho com o desenho de uma engenhoca mecânica complexa",
+    "Uma bainha ornamentada que não serve em nenhuma lâmina que você encontrou",
+    "Um convite para uma festa onde ocorreu um assassinato",
+    "Um pentáculo de bronze com a cabeça de um rato gravada no centro",
+    "Um lenço roxo bordado com o nome de um poderoso arquimago",
+    "Metade da planta de um templo, castelo ou outra estrutura",
+    "Um pedaço de tecido dobrado que se transforma em um chapéu elegante ao ser aberto",
+    "Um recibo de depósito em um banco de uma cidade distante",
+    "Um diário com sete páginas arrancadas",
+    "Uma caixa de rapé de prata vazia com a inscrição 'sonhos'",
+    "Um símbolo sagrado de ferro dedicado a um deus desconhecido",
+    "Um livro sobre a ascensão e queda de um herói lendário, com o último capítulo faltando",
+    "Um frasco de sangue de dragão",
+    "Uma flecha antiga de design élfico",
+    "Uma agulha que nunca entorta",
+    "Um broche ornamentado de design anão",
+    "Uma garrafa de vinho vazia: 'The Wizard of Wines, Red Dragon Crush, 331422-W'",
+    "Um mosaico com superfície vitrificada multicolorida",
+    "Um rato petrificado",
+    "Uma bandeira pirata preta com uma caveira de dragão e ossos cruzados",
+    "Um pequeno caranguejo ou aranha mecânica que se move quando não está sendo observado",
+    "Um pote de vidro com gordura rotulada 'Graxa de Grifo'",
+    "Uma caixa de madeira com verme vivo com cabeça em cada extremidade",
+    "Uma urna metálica contendo as cinzas de um herói"
+  ];
+
+  function sucata() {
+    const r = Math.floor(Math.random() * 100);
+    const n = r === 99 ? '00' : String(r + 1).padStart(2, '0');
+    toast(`Sucata ${n}: ${SUCATA[r]}`, 't-loot');
+  }
+
+  function bugiganga() {
+    const r = Math.floor(Math.random() * 100);
+    const n = r === 99 ? '00' : String(r + 1).padStart(2, '0');
+    toast(`Bugiganga ${n}: ${BUGIGANGA[r]}`, 't-loot');
+  }
+
+  function resetAll() {
+    document.querySelectorAll('.cb, .cb-sm').forEach(el => {
+      if (el.title !== 'Usada hoje') el.classList.remove('checked');
+    });
+    toast('Nova rodada — checkboxes resetados', 't-hit');
+  }
+
+  let tid;
+  function toast(msg, cls) {
+    const el = document.getElementById('toast');
+    const sp = document.getElementById('toast-msg');
+    sp.textContent = msg;
+    sp.className = cls;
+    el.classList.add('show');
+    clearTimeout(tid);
+    tid = setTimeout(() => el.classList.remove('show'), 2200);
+  }
+</script>
+</body>
+</html>
